@@ -16,6 +16,7 @@ import { Membership } from "../components/Membership/Membership";
 import { NewRelease } from "../components/NewReleases/NewReleases";
 import { Banner } from "../components/BannerSlick/Banner";
 import { BarCarousel } from "../components/BarCarousel/BarCarousel";
+import { Footer } from "./Footer";
 // import { Membership } from "../Membership/Membership";
 // import { NewRelease } from "../NewReleases/NewRelease";
 // import { Banner } from "../Banner/Banner";
@@ -199,7 +200,7 @@ export const Home = () => {
       <Container sx={{ height: "auto", marginTop: 2 }}>
         <BarCarousel />
       </Container>
-      {/* Footer 
+      {/* Footer */}
       <Container
         sx={{
           marginTop: "3em",
@@ -209,7 +210,7 @@ export const Home = () => {
         }}
       >
         <Footer />
-      </Container>*/}
+      </Container>
     </Box>
   );
 };

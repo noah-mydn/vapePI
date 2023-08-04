@@ -5,7 +5,7 @@ import React from "react";
 
 const BestDealsContainer = styled(Box)({
   position: "relative",
-  background: "#f7f5f3",
+  background: "#ececec",
   borderRadius: 4,
   height: "180px",
   width: "100%",
@@ -93,7 +93,7 @@ export const BestDeals = () => {
                     component="img"
                     src={bestDeal.url}
                     alt={bestDeal.title}
-                    width="18%"
+                    width="20%"
                     onLoad={() => setIsBestDealLoading(false)} // Pass the function reference without invoking it
                     sx={{
                       objectFit: "contain",
