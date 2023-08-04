@@ -15,6 +15,7 @@ import { BestDeals } from "../components/BestDeals/BestDeals";
 import { Membership } from "../components/Membership/Membership";
 import { NewRelease } from "../components/NewReleases/NewReleases";
 import { Banner } from "../components/BannerSlick/Banner";
+import { BarCarousel } from "../components/BarCarousel/BarCarousel";
 // import { Membership } from "../Membership/Membership";
 // import { NewRelease } from "../NewReleases/NewRelease";
 // import { Banner } from "../Banner/Banner";
@@ -194,10 +195,10 @@ export const Home = () => {
       <Box mt={3}>
         <Banner />
       </Box>
-      {/* BarCarousel
+      {/* BarCarousel*/}
       <Container sx={{ height: "auto", marginTop: 2 }}>
         <BarCarousel />
-      </Container> */}
+      </Container>
       {/* Footer 
       <Container
         sx={{
