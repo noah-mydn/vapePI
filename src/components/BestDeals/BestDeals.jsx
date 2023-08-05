@@ -23,7 +23,7 @@ const BestDealSaleTag = styled(Typography)({
   textAlign: "center",
 });
 
-export const BestDeals = () => {
+export const BestDeals = ({ mobileDevice, tabletDevice }) => {
   const [isBestDealLoading, setIsBestDealLoading] = React.useState(true);
 
   React.useEffect(() => {
@@ -77,30 +77,34 @@ export const BestDeals = () => {
               display="flex"
               flexDirection="column"
               alignItems="center"
-              flex="0 0 55%"
+              flex={
+                mobileDevice ? "0 0 40%" : tabletDevice ? "0 0 30%" : "0 0 15%"
+              }
             >
               <BestDealsContainer key={bestDeal.url}>
-                <BestDealSaleTag>25% Off</BestDealSaleTag>
                 {isBestDealLoading ? (
                   <Skeleton
                     variant="rectangular"
-                    width="50vw"
-                    height="180px"
+                    width="100%"
+                    height="100%"
                     animation="wave"
                   />
                 ) : (
-                  <Box
-                    component="img"
-                    src={bestDeal.url}
-                    alt={bestDeal.title}
-                    width="20%"
-                    onLoad={() => setIsBestDealLoading(false)} // Pass the function reference without invoking it
-                    sx={{
-                      objectFit: "contain",
-                      position: "absolute",
-                      bottom: 0,
-                    }}
-                  />
+                  <>
+                    <BestDealSaleTag>25% Off</BestDealSaleTag>
+                    <Box
+                      component="img"
+                      src={bestDeal.url}
+                      alt={bestDeal.title}
+                      width={mobileDevice ? "23%" : "25%"}
+                      onLoad={() => setIsBestDealLoading(false)} // Pass the function reference without invoking it
+                      sx={{
+                        objectFit: "contain",
+                        position: "absolute",
+                        bottom: 0,
+                      }}
+                    />
+                  </>
                 )}
               </BestDealsContainer>
               <Box

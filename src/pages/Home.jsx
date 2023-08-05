@@ -5,6 +5,7 @@ import {
   Container,
   CssBaseline,
   Paper,
+  Skeleton,
   Typography,
 } from "@mui/material";
 import Carousel from "react-material-ui-carousel";
@@ -44,7 +45,9 @@ const ViewBtn = styled(Button)({
   },
 });
 
-export const Home = () => {
+export const Home = ({ mobileDevice, tabletDevice, largeDevice }) => {
+  const [slideImageLoading, setSideImageLoading] = React.useState(true);
+
   let productImage = [
     {
       url: "./assets/homeSlides/slide1.jpeg",
@@ -79,6 +82,12 @@ export const Home = () => {
       title: "Product Ads Image Three",
     },
   ];
+
+  React.useEffect(() => {
+    setTimeout(() => {
+      setSideImageLoading(false);
+    }, 4000);
+  }, []);
   return (
     <Box position="relative" overflow="hidden">
       {/* Home Slider */}
@@ -128,11 +137,23 @@ export const Home = () => {
                 margin: "0 auto",
               }}
             >
-              <SliderImage
-                component="img"
-                src={product.url}
-                alt={product.title}
-              />
+              {slideImageLoading ? (
+                <SliderImage>
+                  <Skeleton
+                    animation="pulse"
+                    variant="rectangular"
+                    width="100%"
+                    height="100%"
+                  />
+                </SliderImage>
+              ) : (
+                <SliderImage
+                  component="img"
+                  src={product.url}
+                  alt={product.title}
+                  onLoad={() => setSideImageLoading(false)}
+                />
+              )}
 
               <Paper
                 sx={{
@@ -175,12 +196,12 @@ export const Home = () => {
           <Typography variant="body1" textAlign="center">
             Just For You
           </Typography>
-          <BestDeals />
+          <BestDeals mobileDevice={mobileDevice} tabletDevice={tabletDevice} />
         </Box>
       </Container>
       {/* Membership */}
       <Container sx={{ marginTop: 4, paddingY: 2 }}>
-        <Membership />
+        <Membership mobileDevice={mobileDevice} tabletDevice={tabletDevice} />
       </Container>
       {/* New Releases */}
       <Container sx={{ marginTop: 4, paddingY: 2 }}>
