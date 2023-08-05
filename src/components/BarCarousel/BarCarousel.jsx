@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import Slider from "react-slick";
-import { Box, Skeleton, Typography } from "@mui/material";
+import { Box, Skeleton, Stack, Typography } from "@mui/material";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import React from "react";
@@ -59,57 +59,97 @@ const ImageWrapper = styled(Box)({
   },
 });
 
-const SliderImage = ({ url, text }) => {
+const SliderImage = ({ url, text, onLoad, loader }) => {
   return (
     <ImageWrapper>
-      <Box
-        bgcolor="#fefef3"
-        height="50%"
-        display="flex"
-        justifyContent="center"
-        alignItems="end"
-        boxShadow={1}
-      >
-        <Box
-          component="img"
-          src={url}
-          alt={text}
-          borderRadius={2}
-          display="block"
-          sx={{
-            width: "20%",
-            objectPosition: "center",
-            objectFit: "cover",
-            transition: "0.5s ease-in-out",
-          }}
-        />
-      </Box>
-      <Box display="flex" flexDirection="column">
-        <Typography
-          variant="body2"
-          fontWeight="bold"
-          textAlign="center"
-          color="#fff"
-        >
-          Refreshing Mint
-        </Typography>
-        <Typography
-          variant="body2"
-          fontWeight="bold"
-          textAlign="center"
-          color="#fff"
-        >
-          30,000 MMK
-        </Typography>
-        <Typography
-          varaint="caption"
-          fontWeight="bold"
-          color="#FEC20C"
-          fontSize={13}
-        >
-          ⭐600 Points
-        </Typography>
-      </Box>
+      {loader ? (
+        <Box position="absolute" top={-50} width="100%" height="100%">
+          <Skeleton
+            varaint="rectangualr"
+            animation="wave"
+            width="100%"
+            height="88%"
+          />
+          <Box
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            flexDirection="column"
+            marginTop={-4}
+          >
+            <Skeleton
+              type="rounded"
+              width="120px"
+              animation="wave"
+              height="15px"
+            />
+            <Skeleton
+              type="rounded"
+              width="90px"
+              animation="wave"
+              height="15px"
+            />
+            <Skeleton
+              type="rounded"
+              width="70px"
+              animation="wave"
+              height="15px"
+            />
+          </Box>
+        </Box>
+      ) : (
+        <>
+          <Box
+            bgcolor="#fefef3"
+            height="50%"
+            display="flex"
+            justifyContent="center"
+            alignItems="end"
+            boxShadow={1}
+          >
+            <Box
+              component="img"
+              src={url}
+              alt={text}
+              borderRadius={2}
+              display="block"
+              onLoad={onLoad}
+              sx={{
+                width: "20%",
+                objectPosition: "center",
+                objectFit: "cover",
+                transition: "0.5s ease-in-out",
+              }}
+            />
+          </Box>
+          <Box display="flex" flexDirection="column">
+            <Typography
+              variant="body2"
+              fontWeight="bold"
+              textAlign="center"
+              color="#fff"
+            >
+              Refreshing Mint
+            </Typography>
+            <Typography
+              variant="body2"
+              fontWeight="bold"
+              textAlign="center"
+              color="#fff"
+            >
+              30,000 MMK
+            </Typography>
+            <Typography
+              varaint="caption"
+              fontWeight="bold"
+              color="#FEC20C"
+              fontSize={13}
+            >
+              ⭐600 Points
+            </Typography>
+          </Box>
+        </>
+      )}
     </ImageWrapper>
   );
 };
@@ -119,14 +159,16 @@ export const BarCarousel = () => {
   const [isLoadingImgTwo, setIsLoadingImgTwo] = React.useState(true);
   const [isLoadingImgThree, setIsLoadingImgThree] = React.useState(true);
 
-  const [isLoadingsaleImgOne, setIsLoadingsaleImgOne] = React.useState(true);
-  const [isLoadingsaleImgTwo, setIsLoadingsaleImgTwo] = React.useState(true);
+  const [productOneLoading, setProductOneLoading] = React.useState(true);
+  const [productTwoLoading, setProductTwoLoading] = React.useState(true);
+  const [productThreeLoading, setProductThreeLoading] = React.useState(true);
 
   React.useEffect(() => {
     // Simulate image loading from a remote source
     setTimeout(() => {
-      setIsLoadingsaleImgOne(false);
-      setIsLoadingsaleImgTwo(false);
+      setProductOneLoading(false);
+      setProductTwoLoading(false);
+      setProductThreeLoading(false);
     }, 4000);
   }, []);
 
@@ -136,7 +178,7 @@ export const BarCarousel = () => {
       setIsLoadingImgOne(false);
       setIsLoadingImgTwo(false);
       setIsLoadingImgThree(false);
-    }, 6000);
+    }, 5000);
   }, []);
 
   return (
@@ -145,11 +187,10 @@ export const BarCarousel = () => {
       <Box position="relative" width="100%" height="280px" mt={2}>
         {isLoadingImgOne ? (
           <Skeleton
-            variant="rectangular"
+            variant="rounded"
             animation="wave"
-            width="87vw"
-            height="280px"
-            sx={{ borderRadius: 2 }}
+            width="100%"
+            height="100%"
           />
         ) : (
           <Box
@@ -160,6 +201,7 @@ export const BarCarousel = () => {
             height="100%"
             borderRadius={2}
             sx={{ objectFit: "cover" }}
+            onLoad={() => setIsLoadingImgOne(false)}
           />
         )}
         <Typography
@@ -172,7 +214,11 @@ export const BarCarousel = () => {
           fontWeight="bolder"
           width="50%"
         >
-          Devices
+          {isLoadingImgOne ? (
+            <Skeleton variant="rounded" width="120px" height="20px" />
+          ) : (
+            "Devices"
+          )}
         </Typography>
         <Typography
           textAlign="left"
@@ -184,7 +230,14 @@ export const BarCarousel = () => {
           width="35%"
           lineHeight={1.1}
         >
-          Find the best for you here!
+          {isLoadingImgOne ? (
+            <Stack gap={0.3}>
+              <Skeleton variant="rounded" width="150px" height="10px" />
+              <Skeleton variant="rounded" width="150px" height="10px" />
+            </Stack>
+          ) : (
+            "Find the best for you here!"
+          )}
         </Typography>
 
         <Box position="absolute" zIndex={2} width="68%" left={75} top={0}>
@@ -194,57 +247,37 @@ export const BarCarousel = () => {
             centerMode={true}
             centerPadding="40px"
           >
-            {isLoadingsaleImgOne ? (
-              <Skeleton
-                variant="rectangular"
-                animation="wave"
-                width="80px"
-                height="100px"
-              />
-            ) : (
-              <SliderImage
-                url="./assets/vapes/vape1.png"
-                text="Vape Image One"
-              />
-            )}
-            {isLoadingsaleImgOne ? (
-              <Skeleton
-                variant="rectangular"
-                animation="wave"
-                width="80px"
-                height="100px"
-              />
-            ) : (
-              <SliderImage
-                url="./assets/vapes/vape1.png"
-                text="Vape Image Two"
-              />
-            )}
-            {isLoadingsaleImgOne ? (
-              <Skeleton
-                variant="rectangular"
-                animation="wave"
-                width="80px"
-                height="100px"
-              />
-            ) : (
-              <SliderImage
-                url="./assets/vapes/vape1.png"
-                text="Vape Image Three"
-              />
-            )}
+            <SliderImage
+              url="./assets/vapes/vape1.png"
+              text="Vape Image One"
+              onLoad={() => setProductOneLoading(false)}
+              loader={productOneLoading}
+            />
+
+            <SliderImage
+              url="./assets/vapes/vape1.png"
+              text="Vape Image Two"
+              onLoad={() => setProductOneLoading(false)}
+              loader={productOneLoading}
+            />
+
+            <SliderImage
+              url="./assets/vapes/vape1.png"
+              text="Vape Image Three"
+              onLoad={() => setProductOneLoading(false)}
+              loader={productOneLoading}
+            />
           </Slider>
         </Box>
       </Box>
       {/* Second Slider */}
       <Box position="relative" width="100%" height="280px" mt={2}>
-        {isLoadingImgOne ? (
+        {isLoadingImgTwo ? (
           <Skeleton
-            variant="rectangular"
+            variant="rounded"
             animation="wave"
-            width="87vw"
-            height="280px"
-            sx={{ borderRadius: 2 }}
+            width="100%"
+            height="100%"
           />
         ) : (
           <Box
@@ -255,6 +288,7 @@ export const BarCarousel = () => {
             height="100%"
             borderRadius={2}
             sx={{ objectFit: "cover" }}
+            onLoad={() => setIsLoadingImgTwo(false)}
           />
         )}
         <Typography
@@ -267,7 +301,11 @@ export const BarCarousel = () => {
           fontWeight="bolder"
           width="50%"
         >
-          Pods
+          {isLoadingImgTwo ? (
+            <Skeleton variant="rounded" width="120px" height="20px" />
+          ) : (
+            "Pods"
+          )}
         </Typography>
         <Typography
           textAlign="left"
@@ -279,7 +317,14 @@ export const BarCarousel = () => {
           width="35%"
           lineHeight={1.1}
         >
-          Variey of choices available
+          {isLoadingImgTwo ? (
+            <Stack gap={0.3}>
+              <Skeleton variant="rounded" width="150px" height="10px" />
+              <Skeleton variant="rounded" width="150px" height="10px" />
+            </Stack>
+          ) : (
+            "Variety of choices available"
+          )}
         </Typography>
 
         <Box position="absolute" zIndex={2} width="68%" left={75} top={0}>
@@ -289,67 +334,48 @@ export const BarCarousel = () => {
             centerMode={true}
             centerPadding="40px"
           >
-            {isLoadingsaleImgOne ? (
-              <Skeleton
-                variant="rectangular"
-                animation="wave"
-                width="80px"
-                height="100px"
-              />
-            ) : (
-              <SliderImage
-                url="./assets/vapes/vape2.png"
-                text="Vape Image One"
-              />
-            )}
-            {isLoadingsaleImgOne ? (
-              <Skeleton
-                variant="rectangular"
-                animation="wave"
-                width="80px"
-                height="100px"
-              />
-            ) : (
-              <SliderImage
-                url="./assets/vapes/vape2.png"
-                text="Vape Image Two"
-              />
-            )}
-            {isLoadingsaleImgOne ? (
-              <Skeleton
-                variant="rectangular"
-                animation="wave"
-                width="80px"
-                height="100px"
-              />
-            ) : (
-              <SliderImage
-                url="./assets/vapes/vape2.png"
-                text="Vape Image Three"
-              />
-            )}
+            <SliderImage
+              url="./assets/vapes/vape2.png"
+              text="Vape Image One"
+              onLoad={() => setProductTwoLoading(false)}
+              loader={productTwoLoading}
+            />
+
+            <SliderImage
+              url="./assets/vapes/vape1.png"
+              text="Vape Image Two"
+              onLoad={() => setProductTwoLoading(false)}
+              loader={productTwoLoading}
+            />
+
+            <SliderImage
+              url="./assets/vapes/vape1.png"
+              text="Vape Image Three"
+              onLoad={() => setProductTwoLoading(false)}
+              loader={productTwoLoading}
+            />
           </Slider>
         </Box>
       </Box>
       {/* Third Slider */}
       <Box position="relative" width="100%" height="280px" mt={2}>
-        {isLoadingImgOne ? (
+        {isLoadingImgThree ? (
           <Skeleton
-            variant="rectangular"
+            variant="rounded"
             animation="wave"
-            width="87vw"
-            height="280px"
-            sx={{ borderRadius: 2 }}
+            width="100%"
+            height="100%"
           />
         ) : (
           <Box
             component="img"
-            src="./assets/sliderView/3.png"
+            src="./assets/sliderView/2.png"
             alt="banner holder"
             width="100%"
             height="100%"
             borderRadius={2}
             sx={{ objectFit: "cover" }}
+            onLoad={() => setIsLoadingImgThree(false)}
           />
         )}
         <Typography
@@ -361,9 +387,12 @@ export const BarCarousel = () => {
           color="#fff"
           fontWeight="bolder"
           width="50%"
-          zIndex={3}
         >
-          Disposable
+          {isLoadingImgThree ? (
+            <Skeleton variant="rounded" width="120px" height="20px" />
+          ) : (
+            "Disposable"
+          )}
         </Typography>
         <Typography
           textAlign="left"
@@ -375,7 +404,14 @@ export const BarCarousel = () => {
           width="35%"
           lineHeight={1.1}
         >
-          Easy, clean and superb flavour
+          {isLoadingImgThree ? (
+            <Stack gap={0.3}>
+              <Skeleton variant="rounded" width="150px" height="10px" />
+              <Skeleton variant="rounded" width="150px" height="10px" />
+            </Stack>
+          ) : (
+            "Easy, clean and superb flavour"
+          )}
         </Typography>
 
         <Box position="absolute" zIndex={2} width="68%" left={75} top={0}>
@@ -385,45 +421,26 @@ export const BarCarousel = () => {
             centerMode={true}
             centerPadding="40px"
           >
-            {isLoadingsaleImgOne ? (
-              <Skeleton
-                variant="rectangular"
-                animation="wave"
-                width="80px"
-                height="100px"
-              />
-            ) : (
-              <SliderImage
-                url="./assets/vapes/vape4.png"
-                text="Vape Image One"
-              />
-            )}
-            {isLoadingsaleImgOne ? (
-              <Skeleton
-                variant="rectangular"
-                animation="wave"
-                width="80px"
-                height="100px"
-              />
-            ) : (
-              <SliderImage
-                url="./assets/vapes/vape4.png"
-                text="Vape Image Two"
-              />
-            )}
-            {isLoadingsaleImgOne ? (
-              <Skeleton
-                variant="rectangular"
-                animation="wave"
-                width="80px"
-                height="100px"
-              />
-            ) : (
-              <SliderImage
-                url="./assets/vapes/vape4.png"
-                text="Vape Image Three"
-              />
-            )}
+            <SliderImage
+              url="./assets/vapes/vape2.png"
+              text="Vape Image One"
+              onLoad={() => setProductThreeLoading(false)}
+              loader={productThreeLoading}
+            />
+
+            <SliderImage
+              url="./assets/vapes/vape1.png"
+              text="Vape Image Two"
+              onLoad={() => setProductThreeLoading(false)}
+              loader={productThreeLoading}
+            />
+
+            <SliderImage
+              url="./assets/vapes/vape1.png"
+              text="Vape Image Three"
+              onLoad={() => setProductThreeLoading(false)}
+              loader={productThreeLoading}
+            />
           </Slider>
         </Box>
       </Box>
