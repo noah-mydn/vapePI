@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, Skeleton, Stack, Typography } from "@mui/material";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import React from "react";
 
@@ -46,6 +46,15 @@ const newReleaseFragrances = [
 ];
 
 export const NewRelease = () => {
+  const [imagesLoading, setImagesLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    // Simulate image loading from a remote source
+    setTimeout(() => {
+      setImagesLoading(false);
+    }, 4000);
+  }, []);
+
   return (
     <Box
       display="flex"
@@ -58,37 +67,56 @@ export const NewRelease = () => {
       {newReleaseFragrances.map((fragrance) => {
         return (
           <NewReleaseBoxContainer key={fragrance.url} position="relative">
-            <Box
-              component="img"
-              src={fragrance.url}
-              alt={fragrance.title}
-              width="100%"
-              height="100%"
-              sx={{ objectFit: "cover" }}
-              borderRadius={4}
-            />
+            {imagesLoading ? (
+              <>
+                <Skeleton
+                  variant="rounded"
+                  animation="wave"
+                  width="100%"
+                  height="100%"
+                />
+                <Stack position="absolute" top={10} left={10}>
+                  <Skeleton variant="text" animation="wave" width="80px" />
+                  <Skeleton variant="text" animation="wave" width="80px" />
+                  <Skeleton variant="text" animation="wave" width="80px" />
+                </Stack>
+              </>
+            ) : (
+              <>
+                <Box
+                  component="img"
+                  src={fragrance.url}
+                  alt={fragrance.title}
+                  width="100%"
+                  height="100%"
+                  sx={{ objectFit: "cover" }}
+                  borderRadius={4}
+                  onLoad={() => setImagesLoading(false)}
+                />
 
-            <Typography
-              variant="body2"
-              fontWeight="bold"
-              color="#fff"
-              width="60%"
-              fontSize={12}
-              position="absolute"
-              top={15}
-              left={10}
-            >
-              {fragrance.commentary}
-            </Typography>
-            <Typography
-              variant="caption"
-              color="#fff"
-              position="absolute"
-              top={110}
-              left={10}
-            >
-              {fragrance.price}
-            </Typography>
+                <Typography
+                  variant="body2"
+                  fontWeight="bold"
+                  color="#fff"
+                  width="60%"
+                  fontSize={12}
+                  position="absolute"
+                  top={15}
+                  left={10}
+                >
+                  {fragrance.commentary}
+                </Typography>
+                <Typography
+                  variant="caption"
+                  color="#fff"
+                  position="absolute"
+                  top={110}
+                  left={10}
+                >
+                  {fragrance.price}
+                </Typography>
+              </>
+            )}
           </NewReleaseBoxContainer>
         );
       })}

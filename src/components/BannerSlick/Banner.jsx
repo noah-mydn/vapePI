@@ -3,9 +3,24 @@ import Slider from "react-slick";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import styled from "@emotion/styled";
-import { Box, Button, IconButton, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  IconButton,
+  Skeleton,
+  Stack,
+  Typography,
+} from "@mui/material";
 
 export const Banner = () => {
+  const [bannerImagesLoading, setBannerImagesLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    setTimeout(() => {
+      setBannerImagesLoading(false);
+    }, 4000);
+  }, []);
+
   const ViewBtn = styled(Button)({
     marginTop: "1em",
     padding: " 0.5em",
@@ -65,42 +80,73 @@ export const Banner = () => {
   const SliderImage = ({ url, text }) => {
     return (
       <ImageWrapper>
-        <Box
-          component="img"
-          src={url}
-          alt={text}
-          borderRadius={4}
-          display="block"
-          sx={{
-            width: "100%",
-            height: "100%",
-            objectPosition: "center",
-            objectFit: "cover",
-            transition: "0.5s ease-in-out",
-          }}
-        />
-        <Box
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
-          flexDirection="column"
-          sx={{ position: "absolute", top: 30, right: 30 }}
-        >
-          <Typography
-            variant="body1"
-            textAlign="center"
-            color="#fff"
-            fontWeight="bold"
-          >
-            Try New Flavour
-          </Typography>
-          <Typography variant="caption" textAlign="center" color="#fff">
-            Citrus Monster
-          </Typography>
-          <Box>
-            <ViewBtn>View</ViewBtn>
-          </Box>
-        </Box>
+        {bannerImagesLoading ? (
+          <>
+            <Skeleton
+              variant="rounded"
+              width="100%"
+              height="100%"
+              animation="wave"
+            />
+            <Stack
+              position="absolute"
+              right={40}
+              top={20}
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              flexDirection="column"
+            >
+              <Skeleton variant="text" width="100px" height="30px" />
+              <Skeleton varaint="text" width="150px" height="25px" />
+              <Skeleton
+                variant="rectangular"
+                sx={{ borderRadius: 8, marginTop: 4 }}
+                width="60px"
+              />
+            </Stack>
+          </>
+        ) : (
+          <>
+            <Box
+              component="img"
+              src={url}
+              alt={text}
+              borderRadius={4}
+              onLoad={() => setBannerImagesLoading(false)}
+              display="block"
+              sx={{
+                width: "100%",
+                height: "100%",
+                objectPosition: "center",
+                objectFit: "cover",
+                transition: "0.5s ease-in-out",
+              }}
+            />
+            <Box
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              flexDirection="column"
+              sx={{ position: "absolute", top: 30, right: 30 }}
+            >
+              <Typography
+                variant="body1"
+                textAlign="center"
+                color="#fff"
+                fontWeight="bold"
+              >
+                Try New Flavour
+              </Typography>
+              <Typography variant="caption" textAlign="center" color="#fff">
+                Citrus Monster
+              </Typography>
+              <Box>
+                <ViewBtn>View</ViewBtn>
+              </Box>
+            </Box>
+          </>
+        )}
       </ImageWrapper>
     );
   };

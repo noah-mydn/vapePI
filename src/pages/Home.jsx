@@ -45,7 +45,7 @@ const ViewBtn = styled(Button)({
   },
 });
 
-export const Home = ({ mobileDevice, tabletDevice, largeDevice }) => {
+export const Home = ({ mobileDevice, tabletDevice }) => {
   const [slideImageLoading, setSideImageLoading] = React.useState(true);
 
   let productImage = [
