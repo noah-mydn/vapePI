@@ -369,7 +369,7 @@ export const BarCarousel = () => {
         ) : (
           <Box
             component="img"
-            src="./assets/sliderView/2.png"
+            src="./assets/sliderView/3.png"
             alt="banner holder"
             width="100%"
             height="100%"
