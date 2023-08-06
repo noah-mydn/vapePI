@@ -3,16 +3,9 @@ import Slider from "react-slick";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import styled from "@emotion/styled";
-import {
-  Box,
-  Button,
-  IconButton,
-  Skeleton,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Box, Button, Skeleton, Stack, Typography } from "@mui/material";
 
-export const Banner = () => {
+export const Banner = ({ mobileDevice, tabletDevice }) => {
   const [bannerImagesLoading, setBannerImagesLoading] = React.useState(true);
 
   React.useEffect(() => {
@@ -70,7 +63,7 @@ export const Banner = () => {
     overflow: "hidden",
     borderRadius: 2,
     marginBottom: "2em",
-    width: "330px",
+    width: mobileDevice ? "330px" : "430px",
     height: "160px",
     "&:hover .slide-in": {
       transform: "translateY(0)",
@@ -157,9 +150,24 @@ export const Banner = () => {
       centerMode={true}
       centerPadding="15px"
     >
-      <SliderImage url="./assets/banner/1.png" text="Banner Image One" />
-      <SliderImage url="./assets/banner/2.png" text="Banner Image Two" />
-      <SliderImage url="./assets/banner/3.png" text="Banner Image Three" />
+      <SliderImage
+        url={
+          mobileDevice ? "./assets/banner/1.png" : "./assets/banner/1-large.png"
+        }
+        text="Banner Image One"
+      />
+      <SliderImage
+        url={
+          mobileDevice ? "./assets/banner/2.png" : "./assets/banner/2-large.png"
+        }
+        text="Banner Image Two"
+      />
+      <SliderImage
+        url={
+          mobileDevice ? "./assets/banner/3.png" : "./assets/banner/3-large.png"
+        }
+        text="Banner Image Three"
+      />
     </Slider>
   );
 };

@@ -215,7 +215,7 @@ export const Home = ({ mobileDevice, tabletDevice }) => {
       </Container>
       {/* Banner */}
       <Box mt={3}>
-        <Banner />
+        <Banner mobileDevice={mobileDevice} tabletDevice={tabletDevice} />
       </Box>
       {/* BarCarousel*/}
       <Container sx={{ height: "auto", marginTop: 2 }}>
